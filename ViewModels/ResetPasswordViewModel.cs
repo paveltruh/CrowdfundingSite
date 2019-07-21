@@ -8,9 +8,7 @@ namespace WebApplication1.ViewModels
 {
     public class ResetPasswordViewModel
     {
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+        public string userId { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

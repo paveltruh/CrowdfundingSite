@@ -32,7 +32,7 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User { Email = model.Email, UserName = model.Email };
+                User user = new User { Email = model.Email, UserName = model.Name };
                 // добавляем пользователя
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -93,7 +93,11 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(model.Email);
+                User user;
+                if (model.Email.Contains("@"))
+                    user = await _userManager.FindByEmailAsync(model.Email);
+                else
+                    user = await _userManager.FindByNameAsync(model.Email);
                 if (user != null)
                 {
                     // проверяем, подтвержден ли email
@@ -104,7 +108,7 @@ namespace WebApplication1.Controllers
                     }
                 }
 
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
@@ -138,7 +142,7 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(model.Email);
+                var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                 {
                     // пользователь с данным email может отсутствовать в бд
@@ -158,9 +162,9 @@ namespace WebApplication1.Controllers
         }
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult ResetPassword(string code = null)
+        public IActionResult ResetPassword(string code = null, string userId = null)
         {
-            return code == null ? View("Error") : View();
+            return code == null || userId == null ? View("Error") : View();
         }
 
         [HttpPost]
@@ -172,7 +176,7 @@ namespace WebApplication1.Controllers
             {
                 return View(model);
             }
-            var user = await _userManager.FindByNameAsync(model.Email);
+            var user = await _userManager.FindByIdAsync(model.userId);
             if (user == null)
             {
                 return View("ResetPasswordConfirmation");

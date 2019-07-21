@@ -36,12 +36,14 @@ namespace WebApplication1
             services.AddDbContext<UsersContext>(options =>
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             
-            services.AddIdentity<User, IdentityRole>(opts => {
-                opts.Password.RequiredLength = 6;   // минимальная длина
-                opts.Password.RequireNonAlphanumeric = false;   // требуются ли не алфавитно-цифровые символы
-                opts.Password.RequireLowercase = false; // требуются ли символы в нижнем регистре
-                opts.Password.RequireUppercase = false; // требуются ли символы в верхнем регистре
-                opts.Password.RequireDigit = false; // требуются ли цифры
+            services.AddIdentity<User, IdentityRole>(options => {
+                options.Password.RequiredLength = 6;   // минимальная длина
+                options.Password.RequireNonAlphanumeric = false;   // требуются ли не алфавитно-цифровые символы
+                options.Password.RequireLowercase = false; // требуются ли символы в нижнем регистре
+                options.Password.RequireUppercase = false; // требуются ли символы в верхнем регистре
+                options.Password.RequireDigit = false; // требуются ли цифры
+                options.User.RequireUniqueEmail = true;
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._+";
             })
                 .AddEntityFrameworkStores<UsersContext>()
                 .AddDefaultTokenProviders();

@@ -9,6 +9,10 @@ namespace WebApplication1.ViewModels
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "User Name")]
+        public string Name { get; set; }
+
+        [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
