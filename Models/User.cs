@@ -12,5 +12,6 @@ namespace WebApplication1.Models
         //[Required]
         //public string Name { get; set; }
         public int Year { get; set; }
+        public virtual ICollection<Company> Companies { get; set; }
     }
 }

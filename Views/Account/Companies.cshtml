@@ -1,0 +1,36 @@
+﻿@model IEnumerable<WebApplication1.Models.Company>
+@{
+    ViewData["Title"] = "Companies";
+}
+
+
+
+<partial name="SideBArPartial" />
+<div class="main">
+    <h1>Companies</h1>
+
+    <div class="form-group">
+        <a asp-action="CreateCompany" asp-controller="Account" asp-route-id="@ViewData["UserName"]">Добавить компанию</a>
+    </div>
+    <table class="table">
+        <tr><th>название</th><th>описание</th><th></th></tr>
+        @foreach (var company in Model)
+        {
+    <tr>
+        @*<td><a id="manage" class="nav-link text-dark" asp-controller="Account" asp-action="Companies" asp-route-id="@user.UserName" title="Manage">@user.Email</a></td>*@
+
+        <td>@company.Name</td>
+        <td>@company.Description</td>
+        @*<td>
+            <form asp-action="Delete" asp-route-id="@user.Id" method="post">
+                <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@user.Id">Изменить</a>
+                <button type="submit" class="btn btn-sm btn-danger">
+                    Удалить
+                </button>
+            </form>
+        </td>*@
+    </tr>
+        }
+    </table>
+
+</div>

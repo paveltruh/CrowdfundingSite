@@ -10,10 +10,9 @@ using WebApplication1.ViewModels;
 
 namespace WebApplication1.Controllers
 {
-    [Authorize(Roles = "admin")]
     public class UsersController : Controller
     {
-        private UserManager<User> _userManager;
+        private readonly UserManager<User> _userManager;
 
         public UsersController(UserManager<User> userManager)
         {
@@ -25,6 +24,7 @@ namespace WebApplication1.Controllers
         public IActionResult Create() => View();
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create(CreateUserViewModel model)
         {
             if (ModelState.IsValid)
@@ -46,6 +46,7 @@ namespace WebApplication1.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(string id)
         {
             User user = await _userManager.FindByIdAsync(id);
@@ -58,6 +59,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(EditUserViewModel model)
         {
             if (ModelState.IsValid)
@@ -87,6 +89,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Delete(string id)
         {
             User user = await _userManager.FindByIdAsync(id);
@@ -97,6 +100,7 @@ namespace WebApplication1.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> ChangePassword(string id)
         {
             User user = await _userManager.FindByIdAsync(id);
@@ -109,6 +113,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             if (ModelState.IsValid)

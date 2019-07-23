@@ -1,0 +1,18 @@
+﻿<div class="sidenav">
+    @if (Url.Action().Contains("Companies"))
+    {
+        <a class="active-button" asp-controller="Account" asp-action="Companies" asp-route-id="@ViewData["UserName"]">Компании</a>
+    }
+    else
+    {
+        <a asp-controller="Account" asp-action="Companies" asp-route-id="@ViewData["UserName"]">Компании</a>
+    }
+    @if (Url.Action().Contains("Bonuses"))
+    {
+        <a class="active-button" asp-controller="Account" asp-action="Bonuses" asp-route-id="@ViewData["UserName"]">Бонусы</a>
+    }
+    else
+    {
+        <a asp-controller="Account" asp-action="Bonuses" asp-route-id="@ViewData["UserName"]">Бонусы</a>
+    }
+</div>
