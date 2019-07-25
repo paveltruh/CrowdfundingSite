@@ -31,12 +31,9 @@ namespace WebApplication1.Controllers
         }
         public IActionResult Companies(string id)
         {
-            //IQueryable<User> users = null; _companyContext.Companies.i);
-            //_companyContext.Companies.Select()
             if (!Validation(id))
                 return RedirectToAction("Index", "Home");
 
-            //IQueryable<Company> companies = _usersContext.Companies.ToList();
             return View(_usersContext.Companies
                 .Where(c=>c.UserId == _usersContext.Users.FirstOrDefault(u=>u.UserName.Equals(id)).Id));
         }
