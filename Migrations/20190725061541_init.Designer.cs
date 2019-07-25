@@ -10,8 +10,8 @@ using WebApplication1.Models;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(UsersContext))]
-    [Migration("20190723180452_addCompanies")]
-    partial class addCompanies
+    [Migration("20190725061541_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -147,7 +147,7 @@ namespace WebApplication1.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Company");
+                    b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.User", b =>
@@ -250,7 +250,7 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("WebApplication1.Models.Company", b =>
                 {
-                    b.HasOne("WebApplication1.Models.User")
+                    b.HasOne("WebApplication1.Models.User", "User")
                         .WithMany("Companies")
                         .HasForeignKey("UserId");
                 });

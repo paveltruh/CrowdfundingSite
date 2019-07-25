@@ -14,21 +14,19 @@ namespace WebApplication1.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private CompanyContext _companyContext;
+        private UsersContext _usersContext;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, CompanyContext companyContext)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, UsersContext usersContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _companyContext = companyContext;
+            _usersContext = usersContext;
         }
 
         public IActionResult Index(string id)
         {
             if (!Validation(id))
-            {
                 return RedirectToAction("Index", "Home");
-            }
             return View();
         }
         public IActionResult Companies(string id)
@@ -36,25 +34,23 @@ namespace WebApplication1.Controllers
             //IQueryable<User> users = null; _companyContext.Companies.i);
             //_companyContext.Companies.Select()
             if (!Validation(id))
-            {
                 return RedirectToAction("Index", "Home");
-            }
 
-            IQueryable<Company> companies = _companyContext.Companies.Include(c => c.UserId)
-                .Where(c => c.UserId == _userManager.GetUserId(User));
-            return View(companies.ToList());
+            //IQueryable<Company> companies = _usersContext.Companies.ToList();
+            return View(_usersContext.Companies
+                .Where(c=>c.UserId == _usersContext.Users.FirstOrDefault(u=>u.UserName.Equals(id)).Id));
         }
         public IActionResult Bonuses(string id)
         {
             if (!Validation(id))
-            {
                 return RedirectToAction("Index", "Home");
-            }
             return View();
         }
 
         public IActionResult CreateCompany(string id)
         {
+            if (!Validation(id))
+                return RedirectToAction("Index", "Home");
             return View();
         }
         [HttpPost]
@@ -63,8 +59,8 @@ namespace WebApplication1.Controllers
             if (ModelState.IsValid)
             {
                 Company user = new Company { UserId = _userManager.GetUserId(User), Name = model.Name, Description = model.Description  };
-                _companyContext.Add(user);
-                await _companyContext.SaveChangesAsync();
+                _usersContext.Add(user);
+                await _usersContext.SaveChangesAsync();
                 return RedirectToAction("Companies","Account",new { id });
             }
             return View(model);

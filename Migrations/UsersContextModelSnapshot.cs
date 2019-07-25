@@ -145,7 +145,7 @@ namespace WebApplication1.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Company");
+                    b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.User", b =>
@@ -248,7 +248,7 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("WebApplication1.Models.Company", b =>
                 {
-                    b.HasOne("WebApplication1.Models.User")
+                    b.HasOne("WebApplication1.Models.User", "User")
                         .WithMany("Companies")
                         .HasForeignKey("UserId");
                 });

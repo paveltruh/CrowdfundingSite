@@ -23,7 +23,7 @@ namespace WebApplication1
             }
             if (await userManager.FindByNameAsync(adminEmail) == null)
             {
-                User admin = new User { Email = adminEmail, UserName = "admin" };
+                User admin = new User { Email = adminEmail, UserName = "admin", EmailConfirmed = true };
                 IdentityResult result = await userManager.CreateAsync(admin, password);
                 if (result.Succeeded)
                 {

@@ -12,7 +12,8 @@ namespace WebApplication1.Models
         public UsersContext(DbContextOptions<UsersContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
+        public DbSet<Company> Companies { get; set; }
     }
 }
