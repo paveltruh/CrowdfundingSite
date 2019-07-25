@@ -21,6 +21,7 @@
     <Folder Include="Area\Users\Controllers\" />
     <Folder Include="Area\Users\Views\" />
     <Folder Include="Area\Users\" />
+    <Folder Include="UploadedFiles\" />
   </ItemGroup>
 
 </Project>

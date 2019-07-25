@@ -6,12 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Dropbox.Api;
 using Dropbox.Api.Files;
+using Microsoft.AspNetCore.Http;
 
 namespace WebApplication1
 {
     public class DropBoxManager
     {
-        DropboxClient dropboxClient;
+        private readonly DropboxClient dropboxClient;
         public DropBoxManager()
         {
             dropboxClient = new DropboxClient("JAIXvLr3ULAAAAAAAAAAJBPze-dji8m4LY43vlgjaI2zzfddDcILCJbckSW1Aagu");
@@ -25,6 +26,43 @@ namespace WebApplication1
                 file = await response.GetContentAsByteArrayAsync();
             }
             return file;
+        }
+
+        public async Task Upload(string folder, string fileName, byte[] content)
+        {
+            using (var mem = new MemoryStream(content))
+            {
+                var updated = await dropboxClient.Files.UploadAsync(
+                    "/" + folder + "/" + fileName,
+                    WriteMode.Overwrite.Instance,
+                    body: mem);
+            }
+
+        }
+
+        public async Task<string> Upload(string folder, string fileName, IFormFile content)
+        {
+            byte[] byteArray;
+            string Url;
+            using (var ms = new MemoryStream())
+            {
+                content.CopyTo(ms);
+                byteArray = ms.ToArray();
+            }
+
+            using (var mem = new MemoryStream(byteArray))
+            {
+                //await content.CopyToAsync(mem);
+
+                var updated = await dropboxClient.Files.UploadAsync(
+                    "/" + folder + "/" + fileName,
+                    WriteMode.Overwrite.Instance,
+                    body: mem);
+                var a = await dropboxClient.Sharing.CreateSharedLinkWithSettingsAsync("/" + folder + "/" + fileName);
+                Url = (a).Url;
+            }
+            return Url.Substring(0, Url.Length - 1) + "1";
+
         }
 
         public async Task Upload(string folder, string fileName, string content)

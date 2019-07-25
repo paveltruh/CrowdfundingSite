@@ -55,7 +55,13 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                Company user = new Company { UserId = _userManager.GetUserId(User), Name = model.Name, Description = model.Description  };
+                DropBoxManager dropBoxManager = new DropBoxManager();
+                string FotoUrl = await dropBoxManager.Upload(model.Name, model.Foto.FileName, model.Foto);
+
+                Company user = new Company {
+                    UserId = _userManager.Users.FirstOrDefault(u=>u.UserName.Equals(id)).Id,
+                    Name = model.Name, Description = model.Description, Foto = FotoUrl };
+
                 _usersContext.Add(user);
                 await _usersContext.SaveChangesAsync();
                 return RedirectToAction("Companies","Account",new { id });

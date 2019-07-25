@@ -13,12 +13,11 @@
         <a asp-action="CreateCompany" asp-controller="Account" asp-route-id="@ViewData["UserName"]">Добавить компанию</a>
     </div>
     <table class="table">
-        <tr><th>название</th><th>описание</th><th></th></tr>
         @foreach (var company in Model)
         {
     <tr>
         @*<td><a id="manage" class="nav-link text-dark" asp-controller="Account" asp-action="Companies" asp-route-id="@user.UserName" title="Manage">@user.Email</a></td>*@
-
+        <td><img class="img-thumbnail"  style="height:100px; width:100px;" src="@company.Foto" /></td>
         <td>@company.Name</td>
         <td>@company.Description</td>
         @*<td>

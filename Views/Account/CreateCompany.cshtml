@@ -9,8 +9,8 @@
         <div class="col-md-4">
             <h1>CreateCompany</h1>
 
-            <form asp-action="CreateCompany" asp-controller="Account">
-                <div asp-validation-summary="All" class="text-danger"></div>
+            <form asp-action="CreateCompany" asp-controller="Account" enctype="multipart/form-data">
+                @*<div asp-validation-summary="All" class="text-danger"></div>*@
                 <div class="form-group">
                     <label asp-for="Name" class="control-label">Название</label>
                     <input type="text" asp-for="Name" class="form-control" />
@@ -18,6 +18,10 @@
                 <div class="form-group">
                     <label asp-for="Description" class="control-label">Описание</label>
                     <input type="text" asp-for="Description" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Foto" class="control-label">Фото компании</label>
+                    <input type="file" asp-for="Foto" class="form-control" />
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Добавить" class="btn btn-primary" />
