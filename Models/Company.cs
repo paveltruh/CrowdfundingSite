@@ -13,6 +13,12 @@ namespace WebApplication1.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public string Foto { get; set; }
+        [DataType(DataType.Date)]
+        [Column(TypeName = "date")]
+        [DisplayFormat(DataFormatString = "{yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime Deadline { get; set; }
+        public int TargetAmount { get; set; }
+        public int CollectedAmount { get; set; } = 0;
 
         public string UserId { get; set; }
         public User User { get; set; }

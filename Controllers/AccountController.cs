@@ -14,7 +14,7 @@ namespace WebApplication1.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private UsersContext _usersContext;
+        private readonly UsersContext _usersContext;
 
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, UsersContext usersContext)
         {
@@ -60,7 +60,8 @@ namespace WebApplication1.Controllers
 
                 Company user = new Company {
                     UserId = _userManager.Users.FirstOrDefault(u=>u.UserName.Equals(id)).Id,
-                    Name = model.Name, Description = model.Description, Foto = FotoUrl };
+                    Name = model.Name, Description = model.Description, Foto = FotoUrl,
+                    Deadline = model.Deadline, TargetAmount = model.TargetAmount };
 
                 _usersContext.Add(user);
                 await _usersContext.SaveChangesAsync();
