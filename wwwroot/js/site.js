@@ -2,3 +2,7 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+// In your Javascript (external .js resource or <script> tag)
+$(document).ready(function () {
+    $('.js-example-basic-multiple').select2();
+});

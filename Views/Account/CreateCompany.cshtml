@@ -29,20 +29,21 @@
                     <input asp-for="Deadline" class="form-control" />
                 </div>
                 <div class="form-group">
-                    <label asp-for="Deadline" class="control-label">Конец компании</label>
-                    <select>
-                        <option>Чебурашка</option>
-                        <option>Крокодил Гена</option>
-                        <option>Шапокляк</option>
-                        <option>Крыса Лариса</option>
-                    </select>
-                    <select class="form-control" id="exampleFormControlSelect2">
+                    <label asp-for="Category" class="control-label">Категория</label>
+                    <select asp-for="Category" class="form-control" id="exampleFormControlSelect2">
                         <option disabled="disabled" selected="selected" style="display:none"> -- select an option -- </option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                        @foreach (var category in Enum.GetValues(typeof(CompanyCategory)))
+                        {
+                            <option>@category</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Category" class="control-label">Тэги</label>
+                    <select class="js-example-basic-multiple form-control" name="states[]" multiple="multiple">
+                        <option value="AL">Alabama</option>
+                        <option value="WY">Wyoming</option>
                     </select>
                 </div>
 
@@ -50,6 +51,7 @@
                     <label asp-for="TargetAmount" class="control-label">Целевая сумма</label>
                     <input type="number" asp-for="TargetAmount" class="form-control" />
                 </div>
+
                 <div class="form-group">
                     <input type="submit" value="Добавить" class="btn btn-primary" />
                 </div>

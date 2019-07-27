@@ -38,7 +38,7 @@ namespace WebApplication1.Controllers
             return View(_usersContext.Companies
                 .Where(c=>c.UserId == _usersContext.Users.FirstOrDefault(u=>u.UserName.Equals(id)).Id));
         }
-        public async Task<IActionResult> BonusesAsync(string id)
+        public async Task<IActionResult> Bonuses(string id)
         {
             if (!await ValidationAsync(id))
                 return RedirectToAction("Index", "Home");
@@ -107,7 +107,9 @@ namespace WebApplication1.Controllers
                 Company user = new Company {
                     UserId = _userManager.Users.FirstOrDefault(u=>u.UserName.Equals(id)).Id,
                     Name = model.Name, Description = model.Description, Foto = FotoUrl,
-                    Deadline = model.Deadline, TargetAmount = model.TargetAmount };
+                    Deadline = model.Deadline, TargetAmount = model.TargetAmount,
+                    Category = model.Category
+                };
 
                 _usersContext.Add(user);
                 await _usersContext.SaveChangesAsync();
