@@ -39,7 +39,7 @@ namespace WebApplication1
             //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, IdentityRole>(options => {
-                options.Password.RequiredLength = 6;   // минимальная длина
+                options.Password.RequiredLength = 3;   // минимальная длина
                 options.Password.RequireNonAlphanumeric = false;   // требуются ли не алфавитно-цифровые символы
                 options.Password.RequireLowercase = false; // требуются ли символы в нижнем регистре
                 options.Password.RequireUppercase = false; // требуются ли символы в верхнем регистре

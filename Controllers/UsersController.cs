@@ -54,7 +54,7 @@ namespace WebApplication1.Controllers
             {
                 return NotFound();
             }
-            EditUserViewModel model = new EditUserViewModel { Id = user.Id, Email = user.Email, Name = user.UserName, Year = user.Year };
+            EditUserViewModel model = new EditUserViewModel { UserId = user.Id, Name = user.UserName };
             return View(model);
         }
 
@@ -64,12 +64,10 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = await _userManager.FindByIdAsync(model.Id);
+                User user = await _userManager.FindByIdAsync(model.UserId);
                 if (user != null)
                 {
-                    user.Email = model.Email;
                     user.UserName = model.Name;
-                    user.Year = model.Year;
 
                     var result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)

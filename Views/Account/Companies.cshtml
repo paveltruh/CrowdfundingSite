@@ -7,29 +7,45 @@
 
 <partial name="SideBArPartial" />
 <div class="main">
-    <h1>Companies</h1>
+    <h1>Мои компании</h1>
 
-    <div class="form-group">
+    <div class="form-group ">
         <a asp-action="CreateCompany" asp-controller="Account" asp-route-id="@ViewData["UserName"]">Добавить компанию</a>
     </div>
-    <table class="table">
+    <table class="table table-hover ">
         @foreach (var company in Model)
         {
-    <tr>
-        @*<td><a id="manage" class="nav-link text-dark" asp-controller="Account" asp-action="Companies" asp-route-id="@user.UserName" title="Manage">@user.Email</a></td>*@
-        <td><img class="img-thumbnail"  style="height:100px; width:100px;" src="@company.Foto" /></td>
-        <td>@company.Name</td>
-        <td>@company.Deadline.ToShortDateString() </td>
-        <td>@company.Deadline.CompareTo(DateTime.Now) осталось дней</td>
-        @*<td>
-            <form asp-action="Delete" asp-route-id="@user.Id" method="post">
-                <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@user.Id">Изменить</a>
-                <button type="submit" class="btn btn-sm btn-danger">
-                    Удалить
-                </button>
-            </form>
-        </td>*@
-    </tr>
+        <tr>
+            <td>
+                <div class="container">
+                <div class="row">
+                    @*<td><a id="manage" class="nav-link text-dark" asp-controller="Account" asp-action="Companies" asp-route-id="@user.UserName" title="Manage">@user.Email</a></td>*@
+                    <img class="img" style="height:100px; width:100px;" src="@company.Foto" />
+                    @*<td>@company.Name</td>
+            <td>@company.Deadline.ToShortDateString() </td>
+            <td>@company.Deadline.CompareTo(DateTime.Now) осталось дней</td>*@
+
+                    <div class="col">
+                        @company.Name
+                        <p>Конец: @company.Deadline.ToShortDateString() (@((company.Deadline.Date - DateTime.Now.Date).TotalDays) осталось дней)</p>
+                        Собрано @company.CollectedAmount из @company.TargetAmount
+                        <div class="progress"  style="width: 50%">
+                            <div class="progress-bar" role="progressbar" style="width: @(100*company.CollectedAmount/company.TargetAmount)%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+
+                    @*<td>
+                <form asp-action="Delete" asp-route-id="@user.Id" method="post">
+                    <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@user.Id">Изменить</a>
+                    <button type="submit" class="btn btn-sm btn-danger">
+                        Удалить
+                    </button>
+                </form>
+            </td>*@
+                    </div>
+                    </div>
+            </td>
+        </tr>
         }
     </table>
 

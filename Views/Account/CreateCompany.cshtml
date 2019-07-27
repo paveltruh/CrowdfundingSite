@@ -6,11 +6,11 @@
 <partial name="SideBArPartial" />
 <div class="main">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-12">
             <h1>CreateCompany</h1>
 
             <form asp-action="CreateCompany" asp-controller="Account" enctype="multipart/form-data">
-                @*<div asp-validation-summary="All" class="text-danger"></div>*@
+                <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Name" class="control-label">Название</label>
                     <input type="text" asp-for="Name" class="form-control" />
@@ -21,12 +21,29 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Description" class="control-label">Описание</label>
-                    <input type="text" asp-for="Description" class="form-control" />
+                    <input type="text" asp-for="Description" id="MyID" class="form-control" />
+
                 </div>
                 <div class="form-group">
                     <label asp-for="Deadline" class="control-label">Конец компании</label>
                     <input asp-for="Deadline" class="form-control" />
-                    <span asp-validation-for="Deadline" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Deadline" class="control-label">Конец компании</label>
+                    <select>
+                        <option>Чебурашка</option>
+                        <option>Крокодил Гена</option>
+                        <option>Шапокляк</option>
+                        <option>Крыса Лариса</option>
+                    </select>
+                    <select class="form-control" id="exampleFormControlSelect2">
+                        <option disabled="disabled" selected="selected" style="display:none"> -- select an option -- </option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
                 </div>
 
                 <div class="form-group">
@@ -40,3 +57,4 @@
         </div>
     </div>
 </div>
+

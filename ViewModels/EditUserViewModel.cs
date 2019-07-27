@@ -9,12 +9,8 @@ namespace WebApplication1.ViewModels
     public class EditUserViewModel
     {
         [Required]
-        public string Id { get; set; }
-        [Required]
-        public string Email { get; set; }
+        public string UserId { get; set; }
         [Required]
         public string Name { get; set; }
-        [Required]
-        public int Year { get; set; }
     }
 }

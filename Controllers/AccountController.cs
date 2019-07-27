@@ -23,33 +23,79 @@ namespace WebApplication1.Controllers
             _usersContext = usersContext;
         }
 
-        public IActionResult Index(string id)
+        public async Task<IActionResult> Index(string id)
         {
-            if (!Validation(id))
+            if (!await ValidationAsync(id))
                 return RedirectToAction("Index", "Home");
             return View();
         }
-        public IActionResult Companies(string id)
+
+        public async Task<IActionResult> Companies(string id)
         {
-            if (!Validation(id))
+            if (!await ValidationAsync(id))
                 return RedirectToAction("Index", "Home");
 
             return View(_usersContext.Companies
                 .Where(c=>c.UserId == _usersContext.Users.FirstOrDefault(u=>u.UserName.Equals(id)).Id));
         }
-        public IActionResult Bonuses(string id)
+        public async Task<IActionResult> BonusesAsync(string id)
         {
-            if (!Validation(id))
+            if (!await ValidationAsync(id))
+                return RedirectToAction("Index", "Home");
+            return View();
+        }
+        
+        public async Task<IActionResult> EditProfile(string id)
+        {
+            if (!await ValidationAsync(id))
+                return RedirectToAction("Index", "Home");
+
+            User user = await _userManager.FindByNameAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            EditUserViewModel model = new EditUserViewModel { UserId = user.Id,  Name = user.UserName };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditProfile(EditUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                User user = await _userManager.FindByIdAsync(model.UserId);
+                if (user != null)
+                {
+                    user.UserName = model.Name;
+
+                    user.Id = model.UserId;
+
+                    var result = await _userManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        ViewData["UserName"] = model.Name;
+                        return RedirectToAction("EditProfile", new { id = model.Name }); ;
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
+                }
+            }
+            return View(model);
+        }
+
+        public async Task<IActionResult> CreateCompany(string id)
+        {
+            if (! await ValidationAsync(id))
                 return RedirectToAction("Index", "Home");
             return View();
         }
 
-        public IActionResult CreateCompany(string id)
-        {
-            if (!Validation(id))
-                return RedirectToAction("Index", "Home");
-            return View();
-        }
         [HttpPost]
         public async Task<IActionResult> CreateCompany(string id,CreateCompanyViewModel model)
         {
@@ -70,14 +116,15 @@ namespace WebApplication1.Controllers
             return View(model);
         }
 
-        private bool Validation(string userName)
+        private async Task<bool> ValidationAsync(string userName)
         {
-            if (String.IsNullOrEmpty(userName) || (!User.Identity.Name.Equals(userName) && !User.IsInRole("admin")))
+            if (String.IsNullOrEmpty(userName) || await _userManager.FindByNameAsync(userName) == null || (!User.Identity.Name.Equals(userName) && !User.IsInRole("admin")))
             {
                 return false;
             }
             ViewData["UserName"] = userName;
             return true;
         }
+
     }
 }

@@ -15,4 +15,12 @@
     {
         <a asp-controller="Account" asp-action="Bonuses" asp-route-id="@ViewData["UserName"]">Бонусы</a>
     }
+    @if (Url.Action().Contains("EditProfile"))
+    {
+        <a class="active-button" asp-controller="Account" asp-action="EditProfile" asp-route-id="@ViewData["UserName"]">Профиль</a>
+    }
+    else
+    {
+        <a asp-controller="Account" asp-action="EditProfile" asp-route-id="@ViewData["UserName"]">Профиль</a>
+    }
 </div>
