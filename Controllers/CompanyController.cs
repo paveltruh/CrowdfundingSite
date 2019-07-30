@@ -18,7 +18,8 @@ namespace WebApplication1.Controllers
 
         public IActionResult Index(string id)
         {
-            return View();
+            Company company = _usersContext.Companies.FirstOrDefault(c => c.Name.Equals(id));
+            return View(company);
         }
     }
 }

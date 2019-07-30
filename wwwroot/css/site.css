@@ -102,3 +102,12 @@ body {
             font-size: 18px;
         }
 }
+
+.company-link {
+    color: #343a40;
+    text-decoration: none !important;
+}
+
+    .company-link:hover {
+        color: #343a40 !important;
+    }
