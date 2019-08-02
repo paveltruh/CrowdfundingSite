@@ -1,0 +1,12 @@
+﻿@model WebApplication1.Models.News
+<hr />
+<div class="container">
+    <h1>@(Model.Heading)</h1>
+    @if (!String.IsNullOrEmpty(Model.Image))
+    {
+        <img class="img-fluid" src="@(Model.Image)" />
+    }
+    <div>
+        @Html.Raw(Model.Text)
+    </div>
+</div>

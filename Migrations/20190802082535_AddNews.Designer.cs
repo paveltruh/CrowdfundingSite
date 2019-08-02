@@ -10,8 +10,8 @@ using WebApplication1.Models;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(UsersContext))]
-    [Migration("20190730085356_AddCompanies1")]
-    partial class AddCompanies1
+    [Migration("20190802082535_AddNews")]
+    partial class AddNews
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -158,7 +158,28 @@ namespace WebApplication1.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Company");
+                    b.ToTable("Companies");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.News", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CompanyId");
+
+                    b.Property<string>("Text");
+
+                    b.Property<string>("heading");
+
+                    b.Property<string>("image");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("News");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.User", b =>
@@ -264,6 +285,14 @@ namespace WebApplication1.Migrations
                     b.HasOne("WebApplication1.Models.User", "User")
                         .WithMany("Companies")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.News", b =>
+                {
+                    b.HasOne("WebApplication1.Models.Company", "Company")
+                        .WithMany("News")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

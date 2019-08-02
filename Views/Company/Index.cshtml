@@ -18,3 +18,20 @@
         </div>
     </div>
 </div>
+
+
+<div > 
+    @Html.Raw(Model.Description) 
+</div>
+
+
+<a asp-controller="Company" asp-action="AddNews" asp-route-companyName="@(Model.Name)" class="btn btn-primary">Add news</a>
+
+
+
+
+
+@foreach (var news in Model.News)
+{
+    @await Html.PartialAsync("News", news);
+}

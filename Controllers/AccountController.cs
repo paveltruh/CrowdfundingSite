@@ -104,6 +104,8 @@ namespace WebApplication1.Controllers
                 DropBoxManager dropBoxManager = new DropBoxManager();
                 string FotoUrl = await dropBoxManager.Upload(model.Name, model.Foto.FileName, model.Foto);
 
+
+
                 Company user = new Company {
                     UserId = _userManager.Users.FirstOrDefault(u=>u.UserName.Equals(id)).Id,
                     Name = model.Name, Description = model.Description, Foto = FotoUrl,

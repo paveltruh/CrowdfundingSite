@@ -15,5 +15,6 @@ namespace WebApplication1.Models
             //Database.EnsureCreated();
         }
         public DbSet<Company> Companies { get; set; }
+        public DbSet<News> News { get; set; }
     }
 }

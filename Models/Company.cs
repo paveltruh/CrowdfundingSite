@@ -24,7 +24,7 @@ namespace WebApplication1.Models
         public string UserId { get; set; }
         public User User { get; set; }
 
-        public ICollection<Comment> Comments { get; set; }
+        public ICollection<News> News { get; set; }
     }
     public enum CompanyCategory
     {

@@ -159,6 +159,27 @@ namespace WebApplication1.Migrations
                     b.ToTable("Companies");
                 });
 
+            modelBuilder.Entity("WebApplication1.Models.News", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CompanyId");
+
+                    b.Property<string>("Text");
+
+                    b.Property<string>("heading");
+
+                    b.Property<string>("image");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("News");
+                });
+
             modelBuilder.Entity("WebApplication1.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -262,6 +283,14 @@ namespace WebApplication1.Migrations
                     b.HasOne("WebApplication1.Models.User", "User")
                         .WithMany("Companies")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.News", b =>
+                {
+                    b.HasOne("WebApplication1.Models.Company", "Company")
+                        .WithMany("News")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

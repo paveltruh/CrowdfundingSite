@@ -1,0 +1,29 @@
+﻿@model WebApplication1.ViewModels.CreateNewsViewModel
+@{
+    ViewData["Title"] = "AddNews";
+}
+
+<h1>AddNews to company @(Model.CompanyName) </h1>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form method="post" asp-route-companyId="@(Model.CompanyId)" asp-route-companyName="@(Model.CompanyName)" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Heading" class="control-label">Заголовок</label>
+                <input type="text" asp-for="Heading" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Image" class="control-label">Картинка</label>
+                <input type="file" asp-for="Image" accept="image/*" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Text" class="control-label">Текст</label>
+                <textarea type="text" asp-for="Text" id="CompanyDescription"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </form>
+    </div>
+</div>
