@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,17 +6,12 @@ using System.Threading.Tasks;
 
 namespace WebApplication1.ViewModels
 {
-    public class CreateNewsViewModel
+    public class CreateDonationViewModel
     {
-        public int Id { get; set; }
         [Required]
-        public string Heading { get; set; }
-        public IFormFile Image { get; set; }
-        [Required]
-        public string Text { get; set; }
-        [Required]
+        public int AmountOfDonation { get; set; }
+        public string UserId { get; set; }
         public int CompanyId { get; set; }
         public string CompanyName { get; set; }
-
     }
 }

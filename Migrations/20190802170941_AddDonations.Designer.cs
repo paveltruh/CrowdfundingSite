@@ -10,8 +10,8 @@ using WebApplication1.Models;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(UsersContext))]
-    [Migration("20190802082535_AddNews")]
-    partial class AddNews
+    [Migration("20190802170941_AddDonations")]
+    partial class AddDonations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -161,6 +161,27 @@ namespace WebApplication1.Migrations
                     b.ToTable("Companies");
                 });
 
+            modelBuilder.Entity("WebApplication1.Models.Donation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AmountOfDonation");
+
+                    b.Property<int>("CompanyId");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Donations");
+                });
+
             modelBuilder.Entity("WebApplication1.Models.News", b =>
                 {
                     b.Property<int>("Id")
@@ -169,11 +190,13 @@ namespace WebApplication1.Migrations
 
                     b.Property<int>("CompanyId");
 
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("Heading");
+
+                    b.Property<string>("Image");
+
                     b.Property<string>("Text");
-
-                    b.Property<string>("heading");
-
-                    b.Property<string>("image");
 
                     b.HasKey("Id");
 
@@ -284,6 +307,18 @@ namespace WebApplication1.Migrations
                 {
                     b.HasOne("WebApplication1.Models.User", "User")
                         .WithMany("Companies")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.Donation", b =>
+                {
+                    b.HasOne("WebApplication1.Models.Company")
+                        .WithMany("Donations")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebApplication1.Models.User")
+                        .WithMany("Donations")
                         .HasForeignKey("UserId");
                 });
 

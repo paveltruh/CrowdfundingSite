@@ -1,7 +1,7 @@
 ﻿<div class="sidenav">
     @if (Url.Action().Contains("Companies"))
     {
-        <a   asp-controller="Account" asp-action="Companies" asp-route-id="@ViewData["UserName"]" >Компании</a>
+        <a class="active-button" asp-controller="Account" asp-action="Companies" asp-route-id="@ViewData["UserName"]" >Компании</a>
     }
     else
     {

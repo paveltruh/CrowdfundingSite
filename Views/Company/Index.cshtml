@@ -4,6 +4,7 @@
     ViewData["Title"] = Model.Name;
 }
 <h1 style="text-align: center">@Model.Name</h1>
+<hr />
 <div class="container">
     <div class="row">
         <div class="col-5">
@@ -15,21 +16,21 @@
             <div class="progress" style="width: 50%">
                 <div class="progress-bar" role="progressbar" style="width: @(100*Model.CollectedAmount/Model.TargetAmount)%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
+
+            <div>
+                @Html.Raw(Model.Description)
+            </div>
+            @if ((bool)ViewData["IsSignedIn"])  
+            {
+                <a asp-controller="Company" asp-action="DonateToCompany" asp-route-companyName="@(Model.Name)" asp-route-companyId="@(Model.Id)" class="btn btn-primary">Пожертвовать</a>
+            }
+            @if ((bool)ViewData["IsItTheOwner"])
+            {
+                <a asp-controller="Company" asp-action="AddNews" asp-route-companyName="@(Model.Name)" class="btn btn-primary">Добавить новость</a>
+            }
         </div>
     </div>
 </div>
-
-
-<div > 
-    @Html.Raw(Model.Description) 
-</div>
-
-
-<a asp-controller="Company" asp-action="AddNews" asp-route-companyName="@(Model.Name)" class="btn btn-primary">Add news</a>
-
-
-
-
 
 @foreach (var news in Model.News)
 {

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebApplication1.Migrations
 {
-    public partial class AddNews : Migration
+    public partial class AddDonations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -181,14 +181,42 @@ namespace WebApplication1.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Donations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AmountOfDonation = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    CompanyId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Donations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Donations_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Donations_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "News",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    heading = table.Column<string>(nullable: true),
-                    image = table.Column<string>(nullable: true),
+                    Heading = table.Column<string>(nullable: true),
+                    Image = table.Column<string>(nullable: true),
                     Text = table.Column<string>(nullable: true),
+                    Date = table.Column<DateTime>(nullable: false),
                     CompanyId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -247,6 +275,16 @@ namespace WebApplication1.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Donations_CompanyId",
+                table: "Donations",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Donations_UserId",
+                table: "Donations",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_News_CompanyId",
                 table: "News",
                 column: "CompanyId");
@@ -268,6 +306,9 @@ namespace WebApplication1.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Donations");
 
             migrationBuilder.DropTable(
                 name: "News");

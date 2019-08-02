@@ -23,13 +23,6 @@ namespace WebApplication1.Controllers
             _usersContext = usersContext;
         }
 
-        public async Task<IActionResult> Index(string id)
-        {
-            if (!await ValidationAsync(id))
-                return RedirectToAction("Index", "Home");
-            return View();
-        }
-
         public async Task<IActionResult> Companies(string id)
         {
             if (!await ValidationAsync(id))

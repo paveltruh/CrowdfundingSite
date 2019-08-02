@@ -12,8 +12,10 @@ namespace WebApplication1.Models
         public string Heading { get; set; }
         public string Image { get; set; }
         public string Text { get; set; }
+        public DateTime Date { get; set; }
 
         public int CompanyId { get; set; }
         public Company Company { get; set; }
     }
 }
+    

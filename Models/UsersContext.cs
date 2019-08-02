@@ -16,5 +16,6 @@ namespace WebApplication1.Models
         }
         public DbSet<Company> Companies { get; set; }
         public DbSet<News> News { get; set; }
+        public DbSet<Donation> Donations { get; set; }
     }
 }

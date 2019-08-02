@@ -2,6 +2,7 @@
 <hr />
 <div class="container">
     <h1>@(Model.Heading)</h1>
+    <p class="blog-post-meta">@(Model.Date.ToString("d MMMM yyyy"))</p>
     @if (!String.IsNullOrEmpty(Model.Image))
     {
         <img class="img-fluid" src="@(Model.Image)" />

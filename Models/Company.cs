@@ -25,6 +25,7 @@ namespace WebApplication1.Models
         public User User { get; set; }
 
         public ICollection<News> News { get; set; }
+        public ICollection<Donation> Donations { get; set; }
     }
     public enum CompanyCategory
     {
