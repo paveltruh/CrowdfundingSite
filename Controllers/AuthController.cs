@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,13 @@ namespace WebApplication1.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IConfiguration _configuration;
 
-        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _configuration = configuration;
         }
 
         public IActionResult Index()
@@ -50,7 +53,8 @@ namespace WebApplication1.Controllers
                         "Auth",
                         new { userId = user.Id, code },
                         protocol: HttpContext.Request.Scheme);
-                    EmailService emailService = new EmailService();
+                    EmailService emailService = new EmailService(
+                        _configuration["Email:AdminEmail"], _configuration["Email:AdminPassword"]);
                     await emailService.SendEmailAsync(model.Email, "Confirm your account",
                         $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>link</a>");
 
@@ -164,7 +168,8 @@ namespace WebApplication1.Controllers
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.Action("ResetPassword", "Auth",
                     new { userId = user.Id, code }, protocol: HttpContext.Request.Scheme);
-                EmailService emailService = new EmailService();
+                EmailService emailService = new EmailService(
+                    _configuration["Email:AdminEmail"], _configuration["Email:AdminPassword"]);
                 await emailService.SendEmailAsync(model.Email, "Reset Password",
                 $"Для сброса пароля пройдите по ссылке: <a href='{callbackUrl}'>link</a>");
                 return View("ForgotPasswordConfirmation");

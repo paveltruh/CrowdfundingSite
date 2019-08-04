@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using WebApplication1.Models;
 using WebApplication1.ViewModels;
 
@@ -14,13 +15,18 @@ namespace WebApplication1.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly UsersContext _usersContext;
+        private readonly IConfiguration _configuration;
 
-        public CompanyController(UserManager<User> userManager, SignInManager<User> signInManager, UsersContext usersContext)
+
+        public CompanyController(UserManager<User> userManager, SignInManager<User> signInManager,
+            UsersContext usersContext, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _usersContext = usersContext;
+            _configuration = configuration;
         }
+
 
         public IActionResult Index(string id)
         {
@@ -92,7 +98,7 @@ namespace WebApplication1.Controllers
             {
                 string ImageUrl="";
                 if (model.Image!=null) {
-                    DropBoxManager dropBoxManager = new DropBoxManager();
+                    DropBoxManager dropBoxManager = new DropBoxManager(_configuration["DropBoxAccessToken"]);
                     ImageUrl = await dropBoxManager.Upload($"{model.CompanyName}/news", model.Image.FileName, model.Image);
                 }
 

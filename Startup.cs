@@ -26,6 +26,7 @@ namespace WebApplication1
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<DropBoxManager>(Configuration.GetSection("AppSettings"));
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;

@@ -9,9 +9,6 @@ namespace WebApplication1.Models
 {
     public class User : IdentityUser
     {
-        //[Required]
-        //public string Name { get; set; }
-        public int Year { get; set; }
         public ICollection<Company> Companies { get; set; }
         public ICollection<Donation> Donations { get; set; }
     }

@@ -4,3 +4,22 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page to detail your site's privacy policy.</p>
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+
+<a data-ajax="true"
+   asp-controller="Home"
+   asp-action="View1"
+   data-ajax-update="#panel"
+   data-ajax-mode="replace"
+   data-ajax-confirm="123"
+   class="btn btn-dark">+ Add a reward</a>
+
+
+<div id="panel">
+
+</div>

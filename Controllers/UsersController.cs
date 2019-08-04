@@ -29,7 +29,7 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User { Email = model.Email, UserName = model.Name, Year = model.Year, EmailConfirmed = true };
+                User user = new User { Email = model.Email, UserName = model.Name, EmailConfirmed = true };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

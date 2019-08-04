@@ -7,15 +7,17 @@ using System.Threading.Tasks;
 using Dropbox.Api;
 using Dropbox.Api.Files;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace WebApplication1
 {
     public class DropBoxManager
     {
         private readonly DropboxClient dropboxClient;
-        public DropBoxManager()
+
+        public DropBoxManager(string AccessToken)
         {
-            dropboxClient = new DropboxClient("JAIXvLr3ULAAAAAAAAAAJBPze-dji8m4LY43vlgjaI2zzfddDcILCJbckSW1Aagu");
+            dropboxClient = new DropboxClient(AccessToken);
         }
 
         public async Task<byte[]> Download(string folder, string fileName)
