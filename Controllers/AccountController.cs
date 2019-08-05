@@ -14,18 +14,20 @@ namespace WebApplication1.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly UsersContext _usersContext;
+        private readonly ApplicationContext _applicationContext;
         private readonly IConfiguration _configuration;
+        private readonly SignInManager<User> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager,
-            UsersContext usersContext, IConfiguration configuration)
+        public AccountController(UserManager<User> userManager, ApplicationContext usersContext,
+            IConfiguration configuration, RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
-            _usersContext = usersContext;
+            _applicationContext = usersContext;
             _configuration = configuration;
+            _roleManager = roleManager;
+            _signInManager = signInManager;
         }
 
         public async Task<IActionResult> Companies(string id)
@@ -33,8 +35,8 @@ namespace WebApplication1.Controllers
             if (!await ValidationAsync(id))
                 return RedirectToAction("Index", "Home");
 
-            return View(_usersContext.Companies
-                .Where(c=>c.UserId == _usersContext.Users.FirstOrDefault(u=>u.UserName.Equals(id)).Id));
+            return View(_applicationContext.Companies
+                .Where(c=>c.UserId == _applicationContext.Users.FirstOrDefault(u=>u.UserName.Equals(id)).Id));
         }
         public async Task<IActionResult> Bonuses(string id)
         {
@@ -50,10 +52,41 @@ namespace WebApplication1.Controllers
 
             User user = await _userManager.FindByNameAsync(id);
             if (user == null)
-            {
                 return NotFound();
+            var userRoles = await _userManager.GetRolesAsync(user);
+            var allRoles = _roleManager.Roles.ToList();
+            ChangeRoleViewModel model1 = new ChangeRoleViewModel
+            {
+                UserId = user.Id,
+            };
+            EditUserViewModel model = new EditUserViewModel { UserId = user.Id,
+                Name = user.UserName, UserRoles = userRoles, AllRoles = allRoles
+            };
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditRoles(EditUserViewModel model, List<string> roles)
+        {
+            if (ModelState.IsValid)
+            {
+                User user = await _userManager.FindByIdAsync(model.UserId);
+                if (user != null)
+                {
+                    var userRoles = await _userManager.GetRolesAsync(user);
+                    // получаем все роли
+                    var allRoles = _roleManager.Roles.ToList();
+                    // получаем список ролей, которые были добавлены
+                    var addedRoles = roles.Except(userRoles);
+                    // получаем роли, которые были удалены
+                    var removedRoles = userRoles.Except(roles);
+
+                    await _userManager.AddToRolesAsync(user, addedRoles);
+
+                    await _userManager.RemoveFromRolesAsync(user, removedRoles);
+
+                    return RedirectToAction("EditProfile", new { id = model.Name }); ;
+                }
             }
-            EditUserViewModel model = new EditUserViewModel { UserId = user.Id,  Name = user.UserName };
             return View(model);
         }
 
@@ -111,8 +144,8 @@ namespace WebApplication1.Controllers
                     Category = model.Category
                 };
 
-                _usersContext.Add(user);
-                await _usersContext.SaveChangesAsync();
+                _applicationContext.Add(user);
+                await _applicationContext.SaveChangesAsync();
                 return RedirectToAction("Companies","Account",new { id });
             }
             return View(model);
@@ -120,7 +153,8 @@ namespace WebApplication1.Controllers
 
         private async Task<bool> ValidationAsync(string userName)
         {
-            if (String.IsNullOrEmpty(userName) || await _userManager.FindByNameAsync(userName) == null || (!User.Identity.Name.Equals(userName) && !User.IsInRole("admin")))
+            if (!_signInManager.IsSignedIn(User) || String.IsNullOrEmpty(userName) || await _userManager.FindByNameAsync(userName) == null ||
+                (!User.Identity.Name.Equals(userName) && !User.IsInRole("admin")))
             {
                 return false;
             }

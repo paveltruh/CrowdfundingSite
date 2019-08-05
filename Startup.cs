@@ -32,7 +32,7 @@ namespace WebApplication1
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.AddDbContext<UsersContext>(options =>
+            services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, IdentityRole>(options => {
@@ -44,7 +44,7 @@ namespace WebApplication1
                 options.User.RequireUniqueEmail = true;
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._+";
             })
-                .AddEntityFrameworkStores<UsersContext>()
+                .AddEntityFrameworkStores<ApplicationContext>()
                 .AddDefaultTokenProviders();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

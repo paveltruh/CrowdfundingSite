@@ -6,6 +6,13 @@
 <partial name="SideBArPartial" />
 
 <div class="main">
+    @if (User.Identity.Name.Equals(ViewData["UserName"]))
+    {
     <h1>Мои бонусы</h1>
+    }
+    else
+    {
+        <h1>Бонусы @ViewData["UserName"]</h1>
+    }
 </div>
 

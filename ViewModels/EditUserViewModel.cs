@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,5 +13,7 @@ namespace WebApplication1.ViewModels
         public string UserId { get; set; }
         [Required]
         public string Name { get; set; }
+        public List<IdentityRole> AllRoles { get; set; }
+        public IList<string> UserRoles { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebApplication1.Migrations
 {
-    public partial class AddDonations : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,8 +40,7 @@ namespace WebApplication1.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    Year = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

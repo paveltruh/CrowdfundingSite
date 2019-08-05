@@ -15,9 +15,6 @@ namespace WebApplication1.ViewModels
         public string Name { get; set; }
 
         [Required]
-        public int Year { get; set; }
-
-        [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }

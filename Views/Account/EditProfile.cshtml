@@ -2,7 +2,14 @@
 
 <partial name="SideBArPartial" />
 <div class="main">
-    <h1>Редактировать профиль</h1>
+    @if (User.Identity.Name.Equals(ViewData["UserName"]))
+    {
+        <h1>Редактировать профиль</h1>
+    }
+    else
+    {
+        <h1>Редактировать профиль @ViewData["UserName"]</h1>
+    }
     <div class="row">
         <div class="col-md-4">
 
@@ -21,4 +28,24 @@
             </form>
         </div>
     </div>
+    @if (User.IsInRole("admin"))
+    {
+    <h1>Изменение ролей пользователя</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="EditRoles" asp-controller="Account" method="post">
+                <input type="hidden" name="Name" value="@Model.Name" />
+                <input type="hidden" name="UserId" value="@Model.UserId" />
+                <div class="form-group">
+                    @foreach (var role in Model.AllRoles)
+                    {
+                        <input type="checkbox" name="roles" value="@role.Name"
+                               @(Model.UserRoles.Contains(role.Name) ? "checked=\"checked\"" : "") />@role.Name <br />
+                    }
+                </div>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </form>
+        </div>
+    </div>
+    }
 </div>

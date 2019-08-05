@@ -39,10 +39,6 @@ namespace WebApplication1
             host.Run();
         }
 
-        //public static void Main(string[] args)
-        //{
-        //    CreateWebHostBuilder(args).Build().Run();
-        //}
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)

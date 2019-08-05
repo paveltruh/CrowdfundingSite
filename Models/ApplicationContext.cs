@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace WebApplication1.Models
 {
-    public class UsersContext : IdentityDbContext<User>
+    public class ApplicationContext : IdentityDbContext<User>
     {
-        public UsersContext(DbContextOptions<UsersContext> options)
+        public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
             //Database.EnsureCreated();

@@ -13,18 +13,18 @@ namespace WebApplication1.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly UsersContext _usersContext;
+        private readonly ApplicationContext _ApplicationContext;
 
-        public HomeController(UserManager<User> userManager, SignInManager<User> signInManager, UsersContext usersContext)
+        public HomeController(UserManager<User> userManager, SignInManager<User> signInManager, ApplicationContext ApplicationContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _usersContext = usersContext;
+            _ApplicationContext = ApplicationContext;
         }
 
         public IActionResult Index()
         {
-            return View(_usersContext.Companies.ToList());
+            return View(_ApplicationContext.Companies.ToList());
         }
 
         public IActionResult Privacy()
