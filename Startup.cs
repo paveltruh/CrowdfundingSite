@@ -34,6 +34,7 @@ namespace WebApplication1
             });
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<CommentContext>();
 
             services.AddIdentity<User, IdentityRole>(options => {
                 options.Password.RequiredLength = 3;   // минимальная длина

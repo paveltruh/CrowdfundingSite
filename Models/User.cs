@@ -10,6 +10,7 @@ namespace WebApplication1.Models
     public class User : IdentityUser
     {
         public ICollection<Company> Companies { get; set; }
+        public ICollection<Comment> Comments { get; set; }
         public ICollection<Donation> Donations { get; set; }
     }
 }

@@ -22,7 +22,6 @@ namespace WebApplication1.Models
         public CompanyCategory Category { get; set; }
 
         public string UserId { get; set; }
-        public User User { get; set; }
 
         public ICollection<News> News { get; set; }
         public ICollection<Donation> Donations { get; set; }

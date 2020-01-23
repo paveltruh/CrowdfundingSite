@@ -10,7 +10,7 @@ using WebApplication1.Models;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20190804144706_init")]
+    [Migration("20190805072704_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -129,6 +129,29 @@ namespace WebApplication1.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<int>("NewsId");
+
+                    b.Property<string>("Text");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NewsId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comment");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Company", b =>
@@ -301,9 +324,21 @@ namespace WebApplication1.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("WebApplication1.Models.Comment", b =>
+                {
+                    b.HasOne("WebApplication1.Models.News")
+                        .WithMany("Comments")
+                        .HasForeignKey("NewsId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebApplication1.Models.User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("WebApplication1.Models.Company", b =>
                 {
-                    b.HasOne("WebApplication1.Models.User", "User")
+                    b.HasOne("WebApplication1.Models.User")
                         .WithMany("Companies")
                         .HasForeignKey("UserId");
                 });
@@ -322,7 +357,7 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("WebApplication1.Models.News", b =>
                 {
-                    b.HasOne("WebApplication1.Models.Company", "Company")
+                    b.HasOne("WebApplication1.Models.Company")
                         .WithMany("News")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade);
